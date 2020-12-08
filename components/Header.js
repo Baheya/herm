@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Flex, Icon, Avatar, Text } from '@chakra-ui/react';
-function Header() {
+import { Box, Flex, Icon, Avatar, Text, Link } from '@chakra-ui/react';
+function Header({ me }) {
   return (
     <Box backgroundColor="#fafafb" paddingLeft="50px" paddingRight="50px">
       <Flex alignItems="center" justifyContent="space-between" height="50px">
@@ -13,10 +13,15 @@ function Header() {
             viewBox="0 0 40 40"
           ></Icon>
         </Box>
-        <User
-          username="Christian Nwamba"
-          // sub="Scheduled for 16th December at 09:30 AM"
-        ></User>
+        <Flex alignItems="center" justifyContent="space-between">
+          <User
+            username={me.name}
+            // sub="Scheduled for 16th December at 09:30 AM"
+          ></User>
+          <Link href="/api/logout" ml="15px">
+            Logout
+          </Link>
+        </Flex>
       </Flex>
     </Box>
   );
