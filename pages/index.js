@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 import withApollo from 'lib/apollo';
-import Account from '../components/account';
+import Account from '../components/Account';
 import Layout from '../components/Layout';
 
 function Index({ me }) {
