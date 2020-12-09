@@ -1,15 +1,60 @@
-import { Text } from '@chakra-ui/react';
 import withApollo from 'lib/apollo';
 import Account from '../components/Account';
 import Layout from '../components/Layout';
+import { Box, Text, CircularProgress, Flex } from '@chakra-ui/react';
+import gql from 'graphql-tag';
+import { useQuery } from '@apollo/react-hooks';
+import PostCard from '../components/PostCard';
+import ScheduleTweetForm from '../components/SchedulePostForm';
 
 function Index({ me }) {
+  const USER_QUERY = gql`
+    {
+      user {
+        id
+        username
+        scheduled_posts(order_by: { created_at: desc }) {
+          id
+          is_pending
+          schedule_for
+          text
+          user_id
+        }
+      }
+    }
+  `;
+
+  const { data, loading, refetch } = useQuery(USER_QUERY);
+  const [user] = data && data.user ? data.user : [{}];
+
   return (
     <Layout me={me}>
-      <Text fontSize="40px" color="brand.500" as="h1">
-        Hello, {me.name}!
-      </Text>
-      <Account />
+      <Box width="70%">
+        <Box marginBottom="40px" width="100%">
+          <ScheduleTweetForm me={me} user={user} refetch={refetch} />
+        </Box>
+        <Box marginBottom="40px" width="100%">
+          <Text
+            fontSize="18px"
+            color="#1D1D1D"
+            fontWeight="bold"
+            lineHeight="25px"
+          >
+            Scheduled Posts
+          </Text>
+          {loading ? (
+            <Flex justifyContent="center" padding="50px 0">
+              <CircularProgress isIndeterminate color="pink"></CircularProgress>
+            </Flex>
+          ) : (
+            <Box marginTop="19px">
+              {user.scheduled_posts.map((post) => (
+                <PostCard me={me} post={post} key={post.id} />
+              ))}
+            </Box>
+          )}
+        </Box>
+      </Box>
     </Layout>
   );
 }
