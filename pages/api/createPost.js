@@ -36,7 +36,7 @@ const schedulePost = async (client, post) => {
   const data = {
     type: 'create_scheduled_event',
     args: {
-      webhook: `http://host.docker.internal:7071/api/postTweet`,
+      webhook: `${process.env.HASURA_GRAPHQL_ACTIONS_BASE_URL}`,
       schedule_at: post.schedule_for,
       payload: post,
     },
