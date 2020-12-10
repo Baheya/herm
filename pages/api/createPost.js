@@ -36,7 +36,7 @@ const schedulePost = async (client, post) => {
   const data = {
     type: 'create_scheduled_event',
     args: {
-      webhook: `${process.env.HASURA_GRAPHQL_ACTIONS_BASE_URL}`,
+      webhook: `${process.env.HASURA_GRAPHQL_ACTIONS_BASE_URL}/api/postTweet`,
       schedule_at: post.schedule_for,
       payload: post,
     },
